@@ -15,10 +15,7 @@ class LogoutRepositoryImpl implements LogoutRepository {
       await datasource.logout();
       return Right(unit);
     } catch (exception, stacktrace) {
-      return Left(LogoutFailure(
-          message: 'logoutRepositoryImpl.errorMessage',
-          mainException: exception,
-          stacktrace: stacktrace));
+      return Left(LogoutFailure(message: 'logoutRepositoryImpl.errorMessage', mainException: exception, stacktrace: stacktrace));
     }
   }
 }

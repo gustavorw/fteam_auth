@@ -6,6 +6,10 @@ Add in your pubspec.yaml
 ```yaml
 dependencies:
   fteam_authentication_core:
+    hosted:
+      name: fteam_authentication_core
+      url: http://165.22.8.0:8080
+    version: ^0.0.7
 ```
 
 ## Dependency

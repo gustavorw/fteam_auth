@@ -1,8 +1,4 @@
-## [1.0.0+4]
-
-- Update flutter_facebook_auth version
-
-## [1.0.0+3]
+# [1.0.9]
 
 - Update flutter_facebook_auth version
 

@@ -16,9 +16,7 @@ void main() {
   });
 
   test('should do unlink account', () async {
-    when(() => repository.unlinkAccount(ProviderLogin.google)).thenAnswer(
-        (_) async => const Right(
-            LoggedUser(providers: [ProviderLogin.google], token: '', uid: '')));
+    when(() => repository.unlinkAccount(ProviderLogin.google)).thenAnswer((_) async => const Right(LoggedUser(providers: [ProviderLogin.google], token: '', uid: '')));
     final result = await usecase(ProviderLogin.google);
     expect(result.fold(id, id), isA<LoggedUser>());
   });

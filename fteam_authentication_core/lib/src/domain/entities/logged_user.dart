@@ -5,6 +5,7 @@ class LoggedUser {
   final String urlPhoto;
   final String token;
   final bool emailVerified;
+  final String phone;
   final List<ProviderLogin> providers;
 
   const LoggedUser({
@@ -15,6 +16,7 @@ class LoggedUser {
     this.email = '',
     this.urlPhoto = '',
     this.emailVerified = false,
+    this.phone = '',
   });
 
   LoggedUser copyWith({
@@ -25,6 +27,7 @@ class LoggedUser {
     String? email,
     String? urlPhoto,
     bool? emailVerified,
+    String? phone,
   }) {
     return LoggedUser(
       uid: uid,
@@ -34,11 +37,12 @@ class LoggedUser {
       urlPhoto: urlPhoto ?? this.urlPhoto,
       emailVerified: emailVerified ?? this.emailVerified,
       providers: providers,
+      phone: phone ?? this.phone,
     );
   }
 }
 
-enum ProviderLogin { google, facebook, appleId, emailSignin }
+enum ProviderLogin { google, facebook, appleId, emailSignin, phone }
 
 Map<ProviderLogin, String> _nameProviderLogin = {};
 Map<ProviderLogin, String> _emailProviderLogin = {};

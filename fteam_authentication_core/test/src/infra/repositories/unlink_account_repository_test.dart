@@ -12,23 +12,19 @@ void main() {
   final repository = LinkAccountRepositoryImpl(datasource: datasourceMock);
 
   test('should do unlink account', () async {
-    when(() => datasourceMock.unlinkAccount(ProviderLogin.google)).thenAnswer(
-        (_) async =>
-            LoggedUser(providers: [ProviderLogin.google], token: '', uid: ''));
+    when(() => datasourceMock.unlinkAccount(ProviderLogin.google)).thenAnswer((_) async => LoggedUser(providers: [ProviderLogin.google], token: '', uid: ''));
     final result = await repository.unlinkAccount(ProviderLogin.google);
     expect(result.fold(id, id), isA<LoggedUser>());
   });
 
   test('should throw AuthFailure file', () async {
-    when(() => datasourceMock.unlinkAccount(ProviderLogin.google))
-        .thenThrow(CredentialsError(message: 'Test'));
+    when(() => datasourceMock.unlinkAccount(ProviderLogin.google)).thenThrow(CredentialsError(message: 'Test'));
     final result = await repository.unlinkAccount(ProviderLogin.google);
     expect(result.fold(id, id), isA<CredentialsError>());
   });
 
   test('should throw unknown error return LinkAccountError', () async {
-    when(() => datasourceMock.unlinkAccount(ProviderLogin.google))
-        .thenThrow(Exception());
+    when(() => datasourceMock.unlinkAccount(ProviderLogin.google)).thenThrow(Exception());
     final result = await repository.unlinkAccount(ProviderLogin.google);
     expect(result.fold(id, id), isA<LinkAccountError>());
   });

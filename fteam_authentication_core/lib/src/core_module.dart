@@ -1,3 +1,4 @@
+import 'package:fteam_authentication_core/src/domain/usecases/verify_sms_code.dart';
 import 'package:kiwi/kiwi.dart';
 
 import 'domain/repositories/auth_repository.dart';
@@ -36,6 +37,7 @@ final authModule = KiwiContainer.scoped()
       (c) => SignupWithEmailImpl(repository: c()))
   ..registerFactory<RecoveryPassword>(
       (c) => RecoveryPasswordImpl(repository: c()))
+  ..registerFactory<VerifySmsCode>((c) => VerifySmsCodeImp(repository: c()))
   //infra
   ..registerFactory<GetLoggedUserService>(
       (c) => GetLoggedUserServiceImpl(datasource: c()))

@@ -1,5 +1,7 @@
 import 'package:dartz/dartz.dart';
 import 'package:flutter/services.dart';
+import 'package:fteam_authentication_core/src/domain/models/phone_auth_credentials.dart';
+import 'package:fteam_authentication_core/src/domain/models/phone_model.dart';
 
 import '../../domain/entities/logged_user.dart';
 import '../../domain/errors/errors.dart';
@@ -93,6 +95,26 @@ class AuthRepositoryImpl implements AuthRepository {
     } catch (e, st) {
       return Left(EmailLoginError(
           message: 'auth.recoveryPassword', mainException: e, stacktrace: st));
+    }
+  }
+
+  @override
+  Future<Either<AuthFailure, LoggedUser?>> phoneLogin(
+      PhoneAuthCredentials credencials) {
+    return _execute(
+      () => datasource.loginWithPhone(credencials),
+      PhoneLoginError(message: 'auth.phoneLoginInternalError'),
+    );
+  }
+
+  @override
+  Future<Either<AuthFailure, LoggedUser?>> verifySmsCode(
+      PhoneModel phone) async {
+    try {
+      final result = await datasource.verifySmsCode(phone);
+      return Right(result);
+    } on AuthFailure catch (e) {
+      return Left(e);
     }
   }
 }

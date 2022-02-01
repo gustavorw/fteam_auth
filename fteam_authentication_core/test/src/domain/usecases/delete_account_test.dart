@@ -4,8 +4,7 @@ import 'package:fteam_authentication_core/src/domain/repositories/delete_account
 import 'package:fteam_authentication_core/src/domain/usecases/delete_account.dart';
 import 'package:mocktail/mocktail.dart';
 
-class DeleteAccountRepositoryMock extends Mock
-    implements DeleteAccountRepository {}
+class DeleteAccountRepositoryMock extends Mock implements DeleteAccountRepository {}
 
 void main() {
   late DeleteAccountRepository repository;

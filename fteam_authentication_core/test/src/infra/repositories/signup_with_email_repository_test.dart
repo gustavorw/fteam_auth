@@ -17,10 +17,10 @@ void main() {
   });
 
   test('should do signup', () async {
-    when(() => datasourceMock.signupWithEmail(any())).thenAnswer((_) async =>
-        LoggedUser(providers: [ProviderLogin.google], token: '', uid: ''));
-    final result = await repository
-        .signup(EmailCredencials(email: 'null', password: 'null'));
+    when(() => datasourceMock.signupWithEmail(any())).thenAnswer((_) async => LoggedUser(providers: [
+          ProviderLogin.google
+        ], token: '', uid: ''));
+    final result = await repository.signup(EmailCredencials(email: 'null', password: 'null'));
     expect(result.fold(id, id), isA<LoggedUser>());
   });
 }

@@ -10,32 +10,26 @@ class LinkAccountRepositoryImpl implements LinkAccountRepository {
   LinkAccountRepositoryImpl({required this.datasource});
 
   @override
-  Future<Either<AuthFailure, LoggedUser?>> linkAccount(
-      ProviderLogin provider) async {
+  Future<Either<AuthFailure, LoggedUser?>> linkAccount(ProviderLogin provider) async {
     try {
       final result = await datasource.linkAccount(provider);
       return Right(result);
     } on AuthFailure catch (e) {
       return Left(e);
     } catch (e, st) {
-      return Left(LinkAccountError(
-          message: e.toString(), mainException: e, stacktrace: st));
+      return Left(LinkAccountError(message: e.toString(), mainException: e, stacktrace: st));
     }
   }
 
   @override
-  Future<Either<AuthFailure, LoggedUser?>> unlinkAccount(
-      ProviderLogin provider) async {
+  Future<Either<AuthFailure, LoggedUser?>> unlinkAccount(ProviderLogin provider) async {
     try {
       final result = await datasource.unlinkAccount(provider);
       return Right(result);
     } on AuthFailure catch (e) {
       return Left(e);
     } catch (e, st) {
-      return Left(LinkAccountError(
-          message: 'linkAccountRepositoryImpl.unlinkAcountError',
-          mainException: e,
-          stacktrace: st));
+      return Left(LinkAccountError(message: 'linkAccountRepositoryImpl.unlinkAcountError', mainException: e, stacktrace: st));
     }
   }
 }

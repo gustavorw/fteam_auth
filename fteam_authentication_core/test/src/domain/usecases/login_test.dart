@@ -2,6 +2,7 @@ import 'package:dartz/dartz.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:fteam_authentication_core/fteam_authentication_core.dart';
 import 'package:fteam_authentication_core/src/domain/models/email_credencials.dart';
+import 'package:fteam_authentication_core/src/domain/models/phone_auth_credentials.dart';
 import 'package:fteam_authentication_core/src/domain/repositories/auth_repository.dart';
 import 'package:fteam_authentication_core/src/domain/usecases/login.dart';
 import 'package:mocktail/mocktail.dart';
@@ -51,6 +52,7 @@ void main() {
 
     expect(result.fold(id, id), user);
   });
+
   test('should do login with facebook provider', () async {
     const user =
         LoggedUser(providers: [ProviderLogin.google], token: '', uid: '');
@@ -60,6 +62,7 @@ void main() {
     verify(() => repository.facebookLogin()).called(1);
     expect(result.fold(id, id), user);
   });
+
   test('should do login with appleId provider', () async {
     const user =
         LoggedUser(providers: [ProviderLogin.google], token: '', uid: '');

@@ -1,6 +1,7 @@
 import 'dart:async';
 
 import 'package:dartz/dartz.dart';
+import 'package:fteam_authentication_core/src/domain/models/phone_auth_credentials.dart';
 
 import '../entities/logged_user.dart';
 import '../errors/errors.dart';
@@ -8,8 +9,11 @@ import '../models/email_credencials.dart';
 import '../repositories/auth_repository.dart';
 
 abstract class Login {
-  Future<Either<AuthFailure, LoggedUser?>> call(
-      {required ProviderLogin provider, EmailCredencials? credencials});
+  Future<Either<AuthFailure, LoggedUser?>> call({
+    required ProviderLogin provider,
+    EmailCredencials? credencials,
+    PhoneAuthCredentials? phoneCredencials,
+  });
 }
 
 class LoginImpl implements Login {
@@ -18,8 +22,11 @@ class LoginImpl implements Login {
   const LoginImpl({required this.repository});
 
   @override
-  Future<Either<AuthFailure, LoggedUser?>> call(
-      {required ProviderLogin provider, EmailCredencials? credencials}) async {
+  Future<Either<AuthFailure, LoggedUser?>> call({
+    required ProviderLogin provider,
+    EmailCredencials? credencials,
+    PhoneAuthCredentials? phoneCredencials,
+  }) async {
     switch (provider) {
       case ProviderLogin.google:
         return await repository.googleLogin();
@@ -32,6 +39,11 @@ class LoginImpl implements Login {
             provider == ProviderLogin.emailSignin ? credencials != null : true,
             'Provider.emailSignin needs credencials');
         return await repository.emailLogin(credencials!);
+      case ProviderLogin.phone:
+        assert(
+            provider == ProviderLogin.phone ? phoneCredencials != null : true,
+            'Provider.phone needs credencials');
+        return await repository.phoneLogin(phoneCredencials!);
       default:
         return Right(null);
     }

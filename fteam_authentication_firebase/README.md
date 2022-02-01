@@ -1,16 +1,27 @@
 # fteam_authentication_firebase
 
-Fteam' Datasource Authentication using Firebase
+IATec' Datasource Authentication using Firebase
 
 ## Install
 
 Add in your pubspec.yaml
 ```yaml
-dependencies:    
+dependencies:
+  fteam_authentication_core:
+    hosted:
+      name: fteam_authentication_firebase
+      url: http://165.22.8.0:8080
+    version: 0.0.7
+    
   fteam_authentication_firebase:
-
+    hosted:
+      name: fteam_authentication_firebase
+      url: http://165.22.8.0:8080
+    version: 0.0.7
 
 ```
+
+
 
 ## Usage
 
@@ -24,35 +35,15 @@ Configure natives:
 ```dart
 
 main(){
-	WidgetsFlutterBinding.ensureInitialized();
 
-	//IMPORTANT iOS Auth Users
-	startFirebaseDatasource(
-		ProviderOptions(
-			appleClientId: 'br.com.example',
-			appleRedirectUri: Uri.parse('https://exemplo.com'),
-		),
-  );
-  
-   runApp(
-   	...
+
+  //IMPORTANT iOS Auth Users
+  startFirebaseDatasource(ProviderOptions(
+      appleClientId: 'br.com.example', 
+      appleRedirectUri: 'https://...',
     ),
   );
   ...
-  
-  //Utilize [Dartz](https://pub.dev/packages/dartz)
-  Future signInGoogle() async {
-    final result = await FTeamAuth.login(ProviderLogin.google);
-    result.fold((l) => print(l.toString()), (r) => r?.email);
-  }
 }
+
 ```
-
-# Dica
-
-Se tiver error na versão do Kotlin vai em:
-android/build.gradle 
-na seção buildscript na chave ext.kotlin_version coloque o valor 1.6.10
-android/app/build.gradle 
-na seção dependencies implementation 'com.google.firebase:firebase-auth:19.2.0'
-

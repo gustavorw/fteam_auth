@@ -19,10 +19,10 @@ void main() {
 
   group('Google', () {
     test('should do login', () async {
-      final user =
-          LoggedUser(providers: [ProviderLogin.google], token: '', uid: '');
-      when(() => datasourceMock.loginWithGoogle())
-          .thenAnswer((_) async => user);
+      final user = LoggedUser(providers: [
+        ProviderLogin.google
+      ], token: '', uid: '');
+      when(() => datasourceMock.loginWithGoogle()).thenAnswer((_) async => user);
       final result = await repository.googleLogin();
       expect(result.fold(id, id), user);
     });
@@ -31,11 +31,8 @@ void main() {
       final result = await repository.googleLogin();
       expect(result.fold(id, id), isA<GoogleLoginError>());
     });
-    test(
-        'should throw PlatformException on PlatformException with code account-exists-with-different-credential',
-        () async {
-      when(() => datasourceMock.loginWithGoogle()).thenThrow(
-          PlatformException(code: 'account-exists-with-different-credential'));
+    test('should throw PlatformException on PlatformException with code account-exists-with-different-credential', () async {
+      when(() => datasourceMock.loginWithGoogle()).thenThrow(PlatformException(code: 'account-exists-with-different-credential'));
       final result = await repository.googleLogin();
       expect(result.fold(id, id), isA<DuplicatedAccountProviderError>());
     });
@@ -43,10 +40,10 @@ void main() {
 
   group('Facebook', () {
     test('should do login', () async {
-      final user =
-          LoggedUser(providers: [ProviderLogin.google], token: '', uid: '');
-      when(() => datasourceMock.loginWithFacebook())
-          .thenAnswer((_) async => user);
+      final user = LoggedUser(providers: [
+        ProviderLogin.google
+      ], token: '', uid: '');
+      when(() => datasourceMock.loginWithFacebook()).thenAnswer((_) async => user);
       final result = await repository.facebookLogin();
       expect(result.fold(id, id), user);
     });
@@ -58,10 +55,10 @@ void main() {
   });
   group('AppleId', () {
     test('should do login', () async {
-      final user =
-          LoggedUser(providers: [ProviderLogin.google], token: '', uid: '');
-      when(() => datasourceMock.loginWithAppleId())
-          .thenAnswer((_) async => user);
+      final user = LoggedUser(providers: [
+        ProviderLogin.google
+      ], token: '', uid: '');
+      when(() => datasourceMock.loginWithAppleId()).thenAnswer((_) async => user);
       final result = await repository.appleIdLogin();
       expect(result.fold(id, id), user);
     });
@@ -73,18 +70,16 @@ void main() {
   });
   group('Email', () {
     test('should do login', () async {
-      final user =
-          LoggedUser(providers: [ProviderLogin.google], token: '', uid: '');
-      when(() => datasourceMock.loginWithEmail(any()))
-          .thenAnswer((_) async => user);
-      final result = await repository
-          .emailLogin(EmailCredencials(email: '', password: ''));
+      final user = LoggedUser(providers: [
+        ProviderLogin.google
+      ], token: '', uid: '');
+      when(() => datasourceMock.loginWithEmail(any())).thenAnswer((_) async => user);
+      final result = await repository.emailLogin(EmailCredencials(email: '', password: ''));
       expect(result.fold(id, id), user);
     });
     test('should throw exception on internal failure login', () async {
       when(() => datasourceMock.loginWithEmail(any())).thenThrow(Exception());
-      final result = await repository
-          .emailLogin(EmailCredencials(email: '', password: ''));
+      final result = await repository.emailLogin(EmailCredencials(email: '', password: ''));
       expect(result.fold(id, id), isA<EmailLoginError>());
     });
   });

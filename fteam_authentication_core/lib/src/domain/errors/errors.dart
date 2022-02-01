@@ -131,6 +131,22 @@ class FacebookLoginError extends AuthFailure {
       );
 }
 
+class PhoneLoginError extends AuthFailure {
+  const PhoneLoginError(
+      {String? message, dynamic stacktrace, Object? mainException})
+      : super(
+            message: message,
+            mainException: mainException,
+            stacktrace: stacktrace);
+  @override
+  copyWith({String? message, stacktrace, Object? mainException}) =>
+      FacebookLoginError(
+        message: message ?? this.message,
+        stacktrace: stacktrace ?? this.stacktrace,
+        mainException: mainException ?? this.mainException,
+      );
+}
+
 class NotUserLogged extends AuthFailure {
   const NotUserLogged(
       {String? message, dynamic stacktrace, Object? mainException})

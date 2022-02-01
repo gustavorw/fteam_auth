@@ -4,6 +4,7 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:fteam_authentication_core/fteam_authentication_core.dart';
 import 'package:fteam_authentication_core/src/domain/models/email_credencials.dart'
     show EmailCredencials;
+import 'package:fteam_authentication_core/src/domain/models/phone_auth_credentials.dart';
 import 'package:google_sign_in/google_sign_in.dart';
 import 'package:sign_in_with_apple/sign_in_with_apple.dart';
 
@@ -47,6 +48,10 @@ class FirebaseDatasource implements AuthDatasource {
         ProviderLogin.appleId.name = userInfo.displayName ?? '';
         ProviderLogin.appleId.email = userInfo.email ?? '';
         return ProviderLogin.appleId;
+      } else if (userInfo.providerId == 'phone') {
+        ProviderLogin.phone.name = userInfo.displayName ?? '';
+        ProviderLogin.phone.email = userInfo.phoneNumber ?? '';
+        return ProviderLogin.phone;
       } else {
         ProviderLogin.emailSignin.name = userInfo.displayName ?? '';
         ProviderLogin.emailSignin.email = userInfo.email ?? '';
@@ -385,5 +390,65 @@ class FirebaseDatasource implements AuthDatasource {
   @override
   Future<void> recoveryPassword(String email) {
     return firebaseAuth.sendPasswordResetEmail(email: email);
+  }
+
+  @override
+  Future<LoggedUser?> verifySmsCode(PhoneModel phone) async {
+    try {
+      final credential = PhoneAuthProvider.credential(
+        verificationId: phone.id,
+        smsCode: phone.smsCode,
+      );
+
+      final userCredential =
+          await firebaseAuth.signInWithCredential(credential);
+      final user = userCredential.user!;
+
+      return _userFactory(
+        user,
+        _getProviderLogin(user.providerData),
+      );
+    } catch (e, st) {
+      throw PhoneLoginError(
+          message: 'Datasource error', mainException: e, stacktrace: st);
+    }
+  }
+
+  @override
+  Future<LoggedUser?> loginWithPhone(PhoneAuthCredentials credentials) async {
+    try {
+      firebaseAuth.verifyPhoneNumber(
+        phoneNumber: credentials.phone,
+        verificationCompleted: (credential) async {
+          final userCredential =
+              await firebaseAuth.signInWithCredential(credential);
+
+          final user = userCredential.user!;
+
+          final loggerUser = await _userFactory(
+            user,
+            _getProviderLogin(user.providerData),
+          );
+          credentials.onVerified(loggerUser);
+        },
+        verificationFailed: (error) {
+          credentials.onError(PhoneLoginError(
+              message: 'Datasource error',
+              mainException: error,
+              stacktrace: error.stackTrace));
+        },
+        codeSent: (verificationId, forceResendingToken) {
+          credentials.onCode(verificationId);
+        },
+        codeAutoRetrievalTimeout: (verificationId) {},
+      );
+
+      final confirmation =
+          await firebaseAuth.signInWithPhoneNumber(credentials.phone);
+      credentials.onCode.call(confirmation.verificationId);
+    } catch (e, st) {
+      throw PhoneLoginError(
+          message: 'Datasource error', mainException: e, stacktrace: st);
+    }
   }
 }

@@ -2,6 +2,11 @@ library fteam_authentication_core;
 
 import 'package:dartz/dartz.dart';
 import 'package:flutter/material.dart';
+import 'package:fteam_authentication_core/src/domain/models/phone_auth_credentials.dart';
+import 'package:fteam_authentication_core/src/domain/models/phone_model.dart';
+import 'package:fteam_authentication_core/src/domain/usecases/verify_sms_code.dart';
+import 'package:fteam_authentication_core/src/domain/usecases/verify_sms_code.dart';
+import 'package:fteam_authentication_core/src/domain/usecases/verify_sms_code.dart';
 
 import 'src/core_module.dart';
 import 'src/domain/entities/logged_user.dart';
@@ -23,6 +28,8 @@ export 'src/domain/entities/logged_user.dart';
 export 'src/domain/errors/errors.dart';
 export 'src/domain/models/email_credencials.dart';
 export 'src/infra/datasource/auth_datasource.dart';
+export 'src/domain/models/phone_model.dart';
+export 'src/domain/models/phone_auth_credentials.dart';
 
 // ignore: non_constant_identifier_names
 final FTeamAuth = _FteamAutheticationImpl();
@@ -50,9 +57,12 @@ class _FteamAutheticationImpl implements FteamAuthetication {
 
   @override
   Future<Either<AuthFailure, LoggedUser?>> login(ProviderLogin provider,
-      {EmailCredencials? credencials}) {
+      {EmailCredencials? credencials,
+      PhoneAuthCredentials? phoneAuthCredentials}) {
     return authModule.resolve<Login>()(
-        provider: provider, credencials: credencials);
+        provider: provider,
+        credencials: credencials,
+        phoneCredencials: phoneAuthCredentials);
   }
 
   @override
@@ -85,7 +95,7 @@ class _FteamAutheticationImpl implements FteamAuthetication {
 
   @override
   Future<Either<AuthFailure, LoggedUser?>> signupWithEmail(
-      {@required EmailCredencials? credencials}) {
+      {required EmailCredencials? credencials}) {
     return authModule.resolve<SignupWithEmail>()(
         credencials: credencials as EmailCredencials);
   }
@@ -93,5 +103,10 @@ class _FteamAutheticationImpl implements FteamAuthetication {
   @override
   Future<Either<AuthFailure, Unit>> recoveryPassword(String email) {
     return authModule.resolve<RecoveryPassword>()(email);
+  }
+
+  @override
+  Future<Either<AuthFailure, LoggedUser?>> verifySmsCode(PhoneModel phone) {
+    return authModule.resolve<VerifySmsCode>().call(phone);
   }
 }

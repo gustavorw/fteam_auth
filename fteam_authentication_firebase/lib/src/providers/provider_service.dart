@@ -21,9 +21,7 @@ class ProviderService {
     final result = await facebookSignIn.login();
     if (result.accessToken == null) return null;
 
-    final facebookAuthCredential =
-        FacebookAuthProvider.credential(result.accessToken!.token)
-            as FacebookAuthCredential;
+    final facebookAuthCredential = FacebookAuthProvider.credential(result.accessToken!.token) as FacebookAuthCredential;
     return facebookAuthCredential;
   }
 

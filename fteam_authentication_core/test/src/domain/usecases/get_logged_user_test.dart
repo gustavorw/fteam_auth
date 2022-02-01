@@ -16,23 +16,20 @@ void main() {
   });
 
   test('should get LoggedUser object Right result', () async {
-    const user =
-        LoggedUser(providers: [ProviderLogin.google], token: '', uid: '');
+    const user = LoggedUser(providers: [ProviderLogin.google], token: '', uid: '');
     when(() => service.getUser()).thenAnswer((_) async => const Right(user));
     final result = await usecase();
     expect(result, const Right(user));
   });
   test('should throw exception and return a AuthFailure', () async {
-    when(() => service.getUser())
-        .thenAnswer((_) async => const Left(NotUserLogged(message: '')));
+    when(() => service.getUser()).thenAnswer((_) async => const Left(NotUserLogged(message: '')));
     final result = await usecase();
     // ignore: inference_failure_on_instance_creation
     expect(result, const Left(NotUserLogged(message: '')));
   });
 
   test('should get LoggedUser object', () async {
-    const user = LoggedUser(
-        providers: [ProviderLogin.google], token: tokenTest, uid: '');
+    const user = LoggedUser(providers: [ProviderLogin.google], token: tokenTest, uid: '');
     when(() => service.getUser()).thenAnswer((_) async => const Right(user));
     var counter = 0;
     final result = await usecase.call(
