@@ -7,6 +7,7 @@ import 'package:fteam_authentication_core/src/domain/models/email_credencials.da
 import 'package:fteam_authentication_core/src/domain/models/phone_auth_credentials.dart';
 import 'package:google_sign_in/google_sign_in.dart';
 import 'package:sign_in_with_apple/sign_in_with_apple.dart';
+import 'package:flutter/foundation.dart';
 
 import 'providers/provider_service.dart';
 
@@ -442,10 +443,13 @@ class FirebaseDatasource implements AuthDatasource {
         },
         codeAutoRetrievalTimeout: (verificationId) {},
       );
+        
+        if (kIsWeb) {
+        final confirmation =
+            await firebaseAuth.signInWithPhoneNumber(credentials.phone);
+        credentials.onCode.call(confirmation.verificationId);
+      }
 
-      final confirmation =
-          await firebaseAuth.signInWithPhoneNumber(credentials.phone);
-      credentials.onCode.call(confirmation.verificationId);
     } catch (e, st) {
       throw PhoneLoginError(
           message: 'Datasource error', mainException: e, stacktrace: st);
