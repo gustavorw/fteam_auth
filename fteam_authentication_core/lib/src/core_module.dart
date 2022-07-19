@@ -1,6 +1,5 @@
 import 'package:fteam_authentication_core/src/domain/usecases/verify_sms_code.dart';
 import 'package:kiwi/kiwi.dart';
-
 import 'domain/repositories/auth_repository.dart';
 import 'domain/repositories/delete_account_repository.dart';
 import 'domain/repositories/link_account_repository.dart';

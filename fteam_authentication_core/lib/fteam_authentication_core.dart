@@ -5,9 +5,6 @@ import 'package:flutter/material.dart';
 import 'package:fteam_authentication_core/src/domain/models/phone_auth_credentials.dart';
 import 'package:fteam_authentication_core/src/domain/models/phone_model.dart';
 import 'package:fteam_authentication_core/src/domain/usecases/verify_sms_code.dart';
-import 'package:fteam_authentication_core/src/domain/usecases/verify_sms_code.dart';
-import 'package:fteam_authentication_core/src/domain/usecases/verify_sms_code.dart';
-
 import 'src/core_module.dart';
 import 'src/domain/entities/logged_user.dart';
 import 'src/domain/errors/errors.dart';
@@ -23,7 +20,6 @@ import 'src/domain/usecases/signup_with_email.dart';
 import 'src/domain/usecases/unlink_account.dart';
 import 'src/infra/datasource/auth_datasource.dart';
 import 'src/interfaces/fteam_authetication.dart';
-
 export 'src/domain/entities/logged_user.dart';
 export 'src/domain/errors/errors.dart';
 export 'src/domain/models/email_credencials.dart';

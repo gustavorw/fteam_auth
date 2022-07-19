@@ -1,5 +1,4 @@
 import 'package:dartz/dartz.dart';
-
 import '../../domain/errors/errors.dart';
 import '../../domain/repositories/delete_account_repository.dart';
 import '../datasource/auth_datasource.dart';

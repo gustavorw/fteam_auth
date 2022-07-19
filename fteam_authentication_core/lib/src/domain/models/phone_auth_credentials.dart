@@ -1,4 +1,3 @@
-import 'package:flutter/cupertino.dart';
 import 'package:fteam_authentication_core/fteam_authentication_core.dart';
 
 class PhoneAuthCredentials {

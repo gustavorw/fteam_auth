@@ -1,5 +1,4 @@
 import 'package:dartz/dartz.dart';
-
 import '../../domain/errors/errors.dart';
 import '../../domain/repositories/logout_repository.dart';
 import '../datasource/auth_datasource.dart';
@@ -15,7 +14,10 @@ class LogoutRepositoryImpl implements LogoutRepository {
       await datasource.logout();
       return Right(unit);
     } catch (exception, stacktrace) {
-      return Left(LogoutFailure(message: 'logoutRepositoryImpl.errorMessage', mainException: exception, stacktrace: stacktrace));
+      return Left(LogoutFailure(
+          message: 'logoutRepositoryImpl.errorMessage',
+          mainException: exception,
+          stacktrace: stacktrace));
     }
   }
 }

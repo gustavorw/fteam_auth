@@ -1,8 +1,6 @@
 import 'dart:async';
-
 import 'package:fteam_authentication_core/src/domain/models/phone_auth_credentials.dart';
 import 'package:fteam_authentication_core/src/domain/models/phone_model.dart';
-
 import '../../domain/entities/logged_user.dart';
 import '../../domain/models/email_credencials.dart';
 

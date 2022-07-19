@@ -1,5 +1,4 @@
 import 'package:dartz/dartz.dart';
-
 import '../errors/errors.dart';
 import '../repositories/logout_repository.dart';
 

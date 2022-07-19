@@ -1,5 +1,4 @@
 import 'package:dartz/dartz.dart';
-
 import '../../domain/entities/logged_user.dart';
 import '../../domain/errors/errors.dart';
 import '../../domain/models/email_credencials.dart';
@@ -12,12 +11,16 @@ class SignupWithEmailRepositoryImpl implements SignupWithEmailRepository {
   const SignupWithEmailRepositoryImpl({required this.datasource});
 
   @override
-  Future<Either<AuthFailure, LoggedUser?>> signup(EmailCredencials credencials) async {
+  Future<Either<AuthFailure, LoggedUser?>> signup(
+      EmailCredencials credencials) async {
     try {
       final user = await datasource.signupWithEmail(credencials);
       return Right(user);
     } catch (e, st) {
-      return Left(EmailLoginError(message: 'signupWithEmailRepositoryImpl.errorMessage', mainException: e, stacktrace: st));
+      return Left(EmailLoginError(
+          message: 'signupWithEmailRepositoryImpl.errorMessage',
+          mainException: e,
+          stacktrace: st));
     }
   }
 }

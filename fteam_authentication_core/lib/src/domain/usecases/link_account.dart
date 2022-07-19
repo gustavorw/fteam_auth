@@ -1,5 +1,4 @@
 import 'package:dartz/dartz.dart';
-
 import '../entities/logged_user.dart';
 import '../errors/errors.dart';
 import '../repositories/link_account_repository.dart';

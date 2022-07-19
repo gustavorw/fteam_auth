@@ -1,6 +1,4 @@
 import 'package:dartz/dartz.dart';
-import 'package:fteam_authentication_core/src/domain/errors/errors.dart';
-import 'package:fteam_authentication_core/src/domain/models/phone_model.dart';
 import 'package:fteam_authentication_core/src/domain/repositories/auth_repository.dart';
 
 import '../../../fteam_authentication_core.dart';

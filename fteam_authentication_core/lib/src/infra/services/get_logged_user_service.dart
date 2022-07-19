@@ -1,5 +1,4 @@
 import 'package:dartz/dartz.dart';
-
 import '../../domain/entities/logged_user.dart';
 import '../../domain/errors/errors.dart';
 import '../../domain/services/get_logged_user_service.dart';
@@ -13,9 +12,6 @@ class GetLoggedUserServiceImpl implements GetLoggedUserService {
   Future<Either<AuthFailure, LoggedUser?>> getUser() async {
     try {
       final result = await datasource.getLoggedUser();
-      // if (result == null) {
-      //   return Left(NotUserLogged());
-      // }
       return Right(result);
     } on AuthFailure catch (e) {
       return Left(e);

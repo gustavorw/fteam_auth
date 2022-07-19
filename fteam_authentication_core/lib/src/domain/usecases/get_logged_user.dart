@@ -1,7 +1,6 @@
 import 'package:dartz/dartz.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:jwt_decoder/jwt_decoder.dart';
-
 import '../entities/logged_user.dart';
 import '../errors/errors.dart';
 import '../services/get_logged_user_service.dart';
@@ -11,7 +10,8 @@ abstract class GetLoggedUser {
   ///when token is invalid, will try again.
   ///[tryAgainTime] defaul is 800 miliseconds.
   Future<Either<AuthFailure, LoggedUser?>> call(
-      {bool Function(String token, Map payload) checkToken, Duration tryAgainTime = const Duration(milliseconds: 800)});
+      {bool Function(String token, Map payload) checkToken,
+      Duration tryAgainTime = const Duration(milliseconds: 800)});
 }
 
 class GetLoggedUserImpl implements GetLoggedUser {
