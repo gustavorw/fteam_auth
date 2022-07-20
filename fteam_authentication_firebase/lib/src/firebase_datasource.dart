@@ -1,14 +1,12 @@
 import 'dart:async';
 
 import 'package:firebase_auth/firebase_auth.dart';
+import 'package:flutter/foundation.dart';
 import 'package:fteam_authentication_core/fteam_authentication_core.dart';
-import 'package:fteam_authentication_core/src/domain/models/email_credencials.dart'
-    show EmailCredencials;
-import 'package:fteam_authentication_core/src/domain/models/phone_auth_credentials.dart';
 import 'package:google_sign_in/google_sign_in.dart';
 import 'package:sign_in_with_apple/sign_in_with_apple.dart';
-import 'package:flutter/foundation.dart';
 
+import 'errors/firebase_auth_error.dart';
 import 'providers/provider_service.dart';
 
 class FirebaseDatasource implements AuthDatasource {
@@ -25,12 +23,8 @@ class FirebaseDatasource implements AuthDatasource {
       return null;
     }
 
-    final currentUser = FirebaseAuth.instance.currentUser;
-
-    if (currentUser == null) return null;
-
     return _userFactory(
-      currentUser,
+      user,
       _getProviderLogin(user.providerData),
     );
   }
@@ -194,7 +188,6 @@ class FirebaseDatasource implements AuthDatasource {
     if (user == null) {
       throw NotUserLogged();
     }
-
     switch (providerLogin) {
       case ProviderLogin.google:
         return _linkGoogle(user);
@@ -228,13 +221,9 @@ class FirebaseDatasource implements AuthDatasource {
     try {
       result = await user.linkWithCredential(credential);
     } on FirebaseAuthException catch (e, st) {
-      if (e.code == 'credential-already-in-use') {
-        throw DuplicatedAccountProviderError(
-            message: 'firebaseDatasource.ErrorCredentialsMessage',
-            mainException: e,
-            stacktrace: st);
-      }
-      throw Exception();
+      throw checkFirebaseAuthError(e.code, exc: e, stackTrace: st);
+    } catch (e) {
+      rethrow;
     }
     final resultUser = result.user;
     if (resultUser == null) return null;
@@ -258,15 +247,8 @@ class FirebaseDatasource implements AuthDatasource {
     try {
       result = await user.linkWithCredential(credential);
     } on FirebaseAuthException catch (e, st) {
-      if (e.code == 'credential-already-in-use') {
-        throw DuplicatedAccountProviderError(
-            message: 'firebaseDatasource.ErrorCredentialsMessage',
-            mainException: e,
-            stacktrace: st);
-      }
-      throw Exception();
+      throw checkFirebaseAuthError(e.code, exc: e, stackTrace: st);
     }
-
     final resultUser = result.user;
     if (resultUser == null) return null;
 
@@ -293,13 +275,9 @@ class FirebaseDatasource implements AuthDatasource {
     try {
       result = await user.linkWithCredential(credential);
     } on FirebaseAuthException catch (e, st) {
-      if (e.code == 'credential-already-in-use') {
-        throw DuplicatedAccountProviderError(
-            message: 'firebaseDatasource.ErrorCredentialsMessage',
-            mainException: e,
-            stacktrace: st);
-      }
-      throw Exception();
+      throw checkFirebaseAuthError(e.code, exc: e, stackTrace: st);
+    } catch (e) {
+      rethrow;
     }
     final resultUser = result.user;
     if (resultUser == null) return null;
@@ -312,13 +290,7 @@ class FirebaseDatasource implements AuthDatasource {
     try {
       await firebaseAuth.currentUser?.delete();
     } on FirebaseException catch (e, st) {
-      if (e.code == 'requires-recent-login') {
-        throw DeleteAccountError(
-            message: 'firebaseDatasource.requiresRecentLogin',
-            mainException: e,
-            stacktrace: st);
-      }
-      rethrow;
+      throw checkFirebaseAuthError(e.code, stackTrace: st, exc: e);
     }
   }
 
@@ -331,29 +303,20 @@ class FirebaseDatasource implements AuthDatasource {
       if (user == null) return null;
       return _userFactory(user, _getProviderLogin(user.providerData));
     } on FirebaseAuthException catch (e, st) {
-      if (e.code == 'weak-password') {
-        throw EmailLoginError(
-            message: 'The password provided is too weak.',
-            mainException: e,
-            stacktrace: st);
-      } else if (e.code == 'email-already-in-use') {
-        throw EmailLoginError(
-            message: 'The account already exists for that email.',
-            mainException: e,
-            stacktrace: st);
-      }
+      throw checkFirebaseAuthError(e.code, exc: e, stackTrace: st);
     } catch (e, st) {
       throw EmailLoginError(
-          message: 'Datasource error', mainException: e, stacktrace: st);
+        message: 'Datasource error',
+        mainException: e,
+        stacktrace: st,
+      );
     }
-    throw EmailLoginError(message: 'Datasource error');
   }
 
   @override
   Future<void> sendEmailVerification() async {
     var user = firebaseAuth.currentUser;
     if (user == null) return;
-
     if (!user.emailVerified) {
       await user.sendEmailVerification();
     }
@@ -368,24 +331,8 @@ class FirebaseDatasource implements AuthDatasource {
       if (user == null) return null;
       return _userFactory(user, _getProviderLogin(user.providerData));
     } on FirebaseAuthException catch (e, st) {
-      if (e.code == 'user-not-found') {
-        throw EmailLoginError(
-            message: 'No user found for that email',
-            mainException: e,
-            stacktrace: st);
-      } else if (e.code == 'wrong-password') {
-        throw EmailLoginError(
-            message: 'Wrong password provided for that user.',
-            mainException: e,
-            stacktrace: st);
-      } else if (e.code == 'invalid-email') {
-        throw EmailLoginError(
-            message: 'The email address is badly formatted.',
-            mainException: e,
-            stacktrace: st);
-      }
+      throw checkFirebaseAuthError(e.code, exc: e, stackTrace: st);
     }
-    throw EmailLoginError(message: 'Datasource error');
   }
 
   @override
@@ -418,7 +365,7 @@ class FirebaseDatasource implements AuthDatasource {
   @override
   Future<LoggedUser?> loginWithPhone(PhoneAuthCredentials credentials) async {
     try {
-      firebaseAuth.verifyPhoneNumber(
+      await firebaseAuth.verifyPhoneNumber(
         phoneNumber: credentials.phone,
         verificationCompleted: (credential) async {
           final userCredential =
@@ -443,16 +390,19 @@ class FirebaseDatasource implements AuthDatasource {
         },
         codeAutoRetrievalTimeout: (verificationId) {},
       );
-        
-        if (kIsWeb) {
+
+      if (kIsWeb) {
         final confirmation =
             await firebaseAuth.signInWithPhoneNumber(credentials.phone);
         credentials.onCode.call(confirmation.verificationId);
       }
-
+      return null;
     } catch (e, st) {
       throw PhoneLoginError(
-          message: 'Datasource error', mainException: e, stacktrace: st);
+        message: 'Datasource error',
+        mainException: e,
+        stacktrace: st,
+      );
     }
   }
 }
