@@ -1,11 +1,9 @@
 import 'dart:async';
-
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/foundation.dart';
 import 'package:fteam_authentication_core/fteam_authentication_core.dart';
 import 'package:google_sign_in/google_sign_in.dart';
 import 'package:sign_in_with_apple/sign_in_with_apple.dart';
-
 import 'errors/firebase_auth_error.dart';
 import 'providers/provider_service.dart';
 
@@ -18,7 +16,6 @@ class FirebaseDatasource implements AuthDatasource {
   @override
   Future<LoggedUser?> getLoggedUser() async {
     final user = firebaseAuth.currentUser;
-
     if (user == null) {
       return null;
     }
@@ -222,8 +219,6 @@ class FirebaseDatasource implements AuthDatasource {
       result = await user.linkWithCredential(credential);
     } on FirebaseAuthException catch (e, st) {
       throw checkFirebaseAuthError(e.code, exc: e, stackTrace: st);
-    } catch (e) {
-      rethrow;
     }
     final resultUser = result.user;
     if (resultUser == null) return null;

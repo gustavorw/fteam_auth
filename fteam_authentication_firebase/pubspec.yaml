@@ -1,7 +1,6 @@
 name: fteam_authentication_firebase
 description: FTeam's Datasource Authentication
 version: 1.0.8
-# publish_to: http://165.22.8.0:8080
 
 environment:
   sdk: ">=2.12.0 <3.0.0"
@@ -9,14 +8,9 @@ environment:
 dependencies:
   flutter:
     sdk: flutter
-  # fteam_authentication_core:
-  #   hosted:
-  #     name: fteam_authentication_core
-  #     url: http://165.22.8.0:8080
-  #   version: ">=1.0.11 <2.0.0"
   fteam_authentication_core:
     git:
-      url: https://github.com/arivanjuniordev/fteam_authentication.git
+      url: https://github.com/gustavorw/fteam_auth.git
       ref: master
       path: fteam_authentication_core  
   flutter_facebook_auth: ^4.4.0

@@ -2,7 +2,6 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter_facebook_auth/flutter_facebook_auth.dart';
 import 'package:google_sign_in/google_sign_in.dart';
 import 'package:sign_in_with_apple/sign_in_with_apple.dart';
-
 import 'provider_options.dart';
 
 class ProviderService {
@@ -21,7 +20,9 @@ class ProviderService {
     final result = await facebookSignIn.login();
     if (result.accessToken == null) return null;
 
-    final facebookAuthCredential = FacebookAuthProvider.credential(result.accessToken!.token) as FacebookAuthCredential;
+    final facebookAuthCredential =
+        FacebookAuthProvider.credential(result.accessToken!.token)
+            as FacebookAuthCredential;
     return facebookAuthCredential;
   }
 
