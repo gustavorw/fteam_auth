@@ -54,12 +54,11 @@ class _FteamAutheticationImpl implements FteamAuthetication {
   }
 
   @override
-  Future<Either<AuthFailure, LoggedUser?>> loginWithEmail(
-      ProviderLogin provider,
-      {EmailCredencials? emailCredencials,
-      PhoneAuthCredentials? phoneAuthCredentials}) {
+  Future<Either<AuthFailure, LoggedUser?>> loginWithEmail({
+    required EmailCredencials emailCredencials,
+  }) {
     return authModule.resolve<LoginWithEmail>()(
-        emailCredencials: emailCredencials!);
+        emailCredencials: emailCredencials);
   }
 
   @override
@@ -92,9 +91,8 @@ class _FteamAutheticationImpl implements FteamAuthetication {
 
   @override
   Future<Either<AuthFailure, LoggedUser?>> signupWithEmail(
-      {required EmailCredencials? credencials}) {
-    return authModule.resolve<SignupWithEmail>()(
-        credencials: credencials as EmailCredencials);
+      {required EmailCredencials credencials}) {
+    return authModule.resolve<SignupWithEmail>()(credencials: credencials);
   }
 
   @override

@@ -6,7 +6,7 @@ abstract class FteamAuthetication {
   Future<Either<AuthFailure, LoggedUser?>> getLoggedUser();
   Future<Either<AuthFailure, LoggedUser?>> linkAccount(ProviderLogin provider);
   Future<Either<AuthFailure, LoggedUser?>> loginWithEmail(
-      ProviderLogin provider);
+      {required EmailCredencials emailCredencials});
   Future<Either<AuthFailure, LoggedUser?>> loginWithPhone(
       {required PhoneAuthCredentials phoneAuthCredentials});
   Future<Either<AuthFailure, LoggedUser?>> socialLogin(
