@@ -5,7 +5,12 @@ abstract class FteamAuthetication {
   Future<Either<AuthFailure, Unit>> deleteAccount();
   Future<Either<AuthFailure, LoggedUser?>> getLoggedUser();
   Future<Either<AuthFailure, LoggedUser?>> linkAccount(ProviderLogin provider);
-  Future<Either<AuthFailure, LoggedUser?>> login(ProviderLogin provider);
+  Future<Either<AuthFailure, LoggedUser?>> loginWithEmail(
+      ProviderLogin provider);
+  Future<Either<AuthFailure, LoggedUser?>> loginWithPhone(
+      {required PhoneAuthCredentials phoneAuthCredentials});
+  Future<Either<AuthFailure, LoggedUser?>> socialLogin(
+      {required ProviderLogin provider});
   Future<Either<LogoutFailure, Unit>> logout();
   Future<Either<AuthFailure, LoggedUser?>> unLinkAccount(
       ProviderLogin provider);

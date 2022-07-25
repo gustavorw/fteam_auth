@@ -4,6 +4,7 @@ import 'package:dartz/dartz.dart';
 import 'package:flutter/material.dart';
 import 'package:fteam_authentication_core/src/domain/models/phone_auth_credentials.dart';
 import 'package:fteam_authentication_core/src/domain/models/phone_model.dart';
+import 'package:fteam_authentication_core/src/domain/usecases/social_login.dart';
 import 'package:fteam_authentication_core/src/domain/usecases/verify_sms_code.dart';
 import 'src/core_module.dart';
 import 'src/domain/entities/logged_user.dart';
@@ -12,7 +13,8 @@ import 'src/domain/models/email_credencials.dart';
 import 'src/domain/usecases/delete_account.dart';
 import 'src/domain/usecases/get_logged_user.dart';
 import 'src/domain/usecases/link_account.dart';
-import 'src/domain/usecases/login.dart';
+import 'src/domain/usecases/login_with_email.dart';
+import 'src/domain/usecases/login_with_phone.dart';
 import 'src/domain/usecases/logout.dart';
 import 'src/domain/usecases/recovery_password.dart';
 import 'src/domain/usecases/send_email_verification.dart';
@@ -52,13 +54,12 @@ class _FteamAutheticationImpl implements FteamAuthetication {
   }
 
   @override
-  Future<Either<AuthFailure, LoggedUser?>> login(ProviderLogin provider,
-      {EmailCredencials? credencials,
+  Future<Either<AuthFailure, LoggedUser?>> loginWithEmail(
+      ProviderLogin provider,
+      {EmailCredencials? emailCredencials,
       PhoneAuthCredentials? phoneAuthCredentials}) {
-    return authModule.resolve<Login>()(
-        provider: provider,
-        credencials: credencials,
-        phoneCredencials: phoneAuthCredentials);
+    return authModule.resolve<LoginWithEmail>()(
+        emailCredencials: emailCredencials!);
   }
 
   @override
@@ -104,5 +105,19 @@ class _FteamAutheticationImpl implements FteamAuthetication {
   @override
   Future<Either<AuthFailure, LoggedUser?>> verifySmsCode(PhoneModel phone) {
     return authModule.resolve<VerifySmsCode>().call(phone);
+  }
+
+  @override
+  Future<Either<AuthFailure, LoggedUser?>> loginWithPhone(
+      {required PhoneAuthCredentials phoneAuthCredentials}) {
+    return authModule
+        .resolve<LoginWithPhone>()
+        .call(phoneCredencials: phoneAuthCredentials);
+  }
+
+  @override
+  Future<Either<AuthFailure, LoggedUser?>> socialLogin(
+      {required ProviderLogin provider}) {
+    return authModule.resolve<SocialLogin>().call(provider: provider);
   }
 }

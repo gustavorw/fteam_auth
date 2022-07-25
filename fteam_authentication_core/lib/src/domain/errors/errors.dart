@@ -12,6 +12,24 @@ abstract class AuthFailure implements Exception {
   copyWith({String? message, dynamic stacktrace, Object? mainException});
 }
 
+class SocialProviderDontExist extends AuthFailure {
+  const SocialProviderDontExist(
+      {String? message, dynamic stacktrace, Object? mainException})
+      : super(
+            message: message,
+            mainException: mainException,
+            stacktrace: stacktrace);
+
+  @override
+  copyWith({String? message, stacktrace, Object? mainException}) {
+    return SocialProviderDontExist(
+      message: message ?? this.message,
+      stacktrace: stacktrace ?? this.stacktrace,
+      mainException: mainException ?? this.mainException,
+    );
+  }
+}
+
 class LogoutFailure implements AuthFailure {
   final String message;
   final dynamic stacktrace;

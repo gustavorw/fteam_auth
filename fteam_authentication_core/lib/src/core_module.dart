@@ -1,3 +1,5 @@
+import 'package:fteam_authentication_core/src/domain/usecases/login_with_phone.dart';
+import 'package:fteam_authentication_core/src/domain/usecases/social_login.dart';
 import 'package:fteam_authentication_core/src/domain/usecases/verify_sms_code.dart';
 import 'package:kiwi/kiwi.dart';
 import 'domain/repositories/auth_repository.dart';
@@ -9,7 +11,7 @@ import 'domain/services/get_logged_user_service.dart';
 import 'domain/usecases/delete_account.dart';
 import 'domain/usecases/get_logged_user.dart';
 import 'domain/usecases/link_account.dart';
-import 'domain/usecases/login.dart';
+import 'domain/usecases/login_with_email.dart';
 import 'domain/usecases/logout.dart';
 import 'domain/usecases/recovery_password.dart';
 import 'domain/usecases/send_email_verification.dart';
@@ -27,7 +29,9 @@ final authModule = KiwiContainer.scoped()
   ..registerFactory<DeleteAccount>((c) => DeleteAccountImpl(repository: c()))
   ..registerFactory<GetLoggedUser>((c) => GetLoggedUserImpl(service: c()))
   ..registerFactory<LinkAccount>((c) => LinkAccountImpl(repository: c()))
-  ..registerFactory<Login>((c) => LoginImpl(repository: c()))
+  ..registerFactory<SocialLogin>((c) => SocialLoginImpl(repository: c()))
+  ..registerFactory<LoginWithPhone>((c) => LoginWithPhoneImpl(repository: c()))
+  ..registerFactory<LoginWithEmail>((c) => LoginWithEmailImpl(repository: c()))
   ..registerFactory<Logout>((c) => LogoutImpl(repository: c()))
   ..registerFactory<UnLinkAccount>((c) => UnLinkAccountImpl(repository: c()))
   ..registerFactory<SendEmailVerification>(
