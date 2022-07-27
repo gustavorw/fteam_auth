@@ -7,4 +7,7 @@
 
 * TODO: Describe initial release.
 ## [1.1.1+12]
-
+## Changed
+* Separate use cases
+## Added
+* Add comments

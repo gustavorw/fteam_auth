@@ -4,39 +4,46 @@ IATec' Datasource Authentication using Firebase
 
 ## Install
 
-Add in your pubspec.yaml
-```yaml
+```
 dependencies:
-  fteam_authentication_core:
-    hosted:
-      name: fteam_authentication_firebase
-      url: http://165.22.8.0:8080
-    version: 0.0.7
-    
   fteam_authentication_firebase:
-    hosted:
-      name: fteam_authentication_firebase
-      url: http://165.22.8.0:8080
-    version: 0.0.7
-
 ```
 
+## Uso
+Necessário ter um projeto configurado com o firebase. Caso não tenha ainda seguir os passos na documentação do [firebase](https://firebase.flutter.dev/docs/overview/).
 
+### Métodos Disponíveis 
+| Methods              | Return Success| Return Error   |   
+|----------------------|---------------|----------------|
+| loginWithEmail       | LoggedUser    |  AuthFailure   |  
+| logout               | Unit          |  LogoutFailure |  
+| getLoggedUser        | LoggedUser    |  AuthFailure   |  
+| deleteAccount        | Unit          |  AuthFailure   |  
+| linkAccount          | LoggedUser    |  AuthFailure   |  
+| sendEmalVerification | Unit          |  AuthFailure   |  
+| signupWithEmail      | LoggedUser    |  AuthFailure   |  
+| socialLogin          | LoggedUser    |  AuthFailure   |
+| loginWithPhone       | LoggedUser    |  AuthFailure   |
+### Autenticação Social
 
-## Usage
+Para usar os serviços de autenticação é preciso fazer a confuguração nativa de cada plataforma: 
 
-Configure natives:
-[firebase_core](https://pub.dev/packages/firebase_core)
-[firebase_auth](https://pub.dev/packages/firebase_auth)
-[google_sign_in](https://pub.dev/packages/google_sign_in)
-[flutter_facebook_auth](https://pub.dev/packages/flutter_facebook_auth)
-[sign_in_with_apple](https://pub.dev/packages/sign_in_with_apple)
+* [google_sign_in](https://pub.dev/packages/google_sign_in)
 
+* [flutter_facebook_auth](https://pub.dev/packages/flutter_facebook_auth)
+* [sign_in_with_apple](https://pub.dev/packages/sign_in_with_apple)
+
+Caso encontre dificuldades para fazer as configurações nativas use os guias abaixo:
+- [Setup Google sign in flutter]()
+- [Setup Facebook auth in flutter]()
+- [Setup sign in with Apple in flutter]()
+
+### Example 
 ```dart
 
-main(){
-
-
+void main() async{
+  WidgetsFlutterBinding.ensureInitialized();
+  await Firebase.initializeApp();
   //IMPORTANT iOS Auth Users
   startFirebaseDatasource(ProviderOptions(
       appleClientId: 'br.com.example', 
@@ -46,4 +53,17 @@ main(){
   ...
 }
 
+// Example login google.
+Future<void> google() async {
+    final response =
+        await FTeamAuth.socialLogin(provider: ProviderLogin.google);
+    response.fold(
+      (err) {
+        log(err.message!);
+      },
+      (user) {
+        log(user!.email);
+      },
+    );
+  }
 ```

@@ -6,11 +6,10 @@
 
 - Fix core version range
 
-## [0.0.5]
+## [1.1.9]
 
 ### Changed 
 - Handler error firebase
 - Update package versions 
-- Separate use cases
 ### Removed
 - Firebase core dependence
