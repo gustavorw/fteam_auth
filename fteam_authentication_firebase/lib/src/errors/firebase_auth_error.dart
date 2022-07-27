@@ -1,5 +1,6 @@
 import 'package:fteam_authentication_core/fteam_authentication_core.dart';
 
+/// Firebase error handler.
 AuthFailure checkFirebaseAuthError(
   String code, {
   Object? exc,

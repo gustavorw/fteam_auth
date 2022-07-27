@@ -10,6 +10,7 @@ export 'src/providers/provider_options.dart';
 
 bool _isInitialized = false;
 
+/// Invoke the function before runAPP(App()).
 void startFirebaseDatasource(ProviderOptions options) {
   if (!_isInitialized) {
     final provider = ProviderService(options);
