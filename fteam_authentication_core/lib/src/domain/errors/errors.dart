@@ -1,18 +1,29 @@
+/// Base exception.
 abstract class AuthFailure implements Exception {
+  ///
   final String? message;
+
+  ///
   final dynamic stacktrace;
+
+  ///
   final Object? mainException;
 
+  ///
   const AuthFailure({
     this.message,
     required this.stacktrace,
     this.mainException,
   });
 
-  copyWith({String? message, dynamic stacktrace, Object? mainException});
+  ///
+  dynamic copyWith(
+      {String? message, dynamic stacktrace, Object? mainException});
 }
 
+///
 class SocialProviderDontExist extends AuthFailure {
+  ///
   const SocialProviderDontExist(
       {String? message, dynamic stacktrace, Object? mainException})
       : super(
@@ -21,7 +32,8 @@ class SocialProviderDontExist extends AuthFailure {
             stacktrace: stacktrace);
 
   @override
-  copyWith({String? message, stacktrace, Object? mainException}) {
+  SocialProviderDontExist copyWith(
+      {String? message, stacktrace, Object? mainException}) {
     return SocialProviderDontExist(
       message: message ?? this.message,
       stacktrace: stacktrace ?? this.stacktrace,
@@ -30,16 +42,19 @@ class SocialProviderDontExist extends AuthFailure {
   }
 }
 
+///
 class LogoutFailure implements AuthFailure {
   final String message;
   final dynamic stacktrace;
   final Object? mainException;
+
+  ///
   const LogoutFailure(
       {required this.message,
       required this.stacktrace,
       required this.mainException});
 
-  copyWith({
+  LogoutFailure copyWith({
     String? message,
     dynamic stacktrace,
     Object? mainException,
@@ -52,7 +67,9 @@ class LogoutFailure implements AuthFailure {
   }
 }
 
+///
 class CredentialsError extends AuthFailure {
+  ///
   const CredentialsError(
       {String? message, dynamic stacktrace, Object? mainException})
       : super(
@@ -61,7 +78,8 @@ class CredentialsError extends AuthFailure {
             stacktrace: stacktrace);
 
   @override
-  copyWith({String? message, stacktrace, Object? mainException}) =>
+  CredentialsError copyWith(
+          {String? message, stacktrace, Object? mainException}) =>
       CredentialsError(
         message: message ?? this.message,
         stacktrace: stacktrace ?? this.stacktrace,
@@ -69,7 +87,9 @@ class CredentialsError extends AuthFailure {
       );
 }
 
+///
 class EmailLoginError extends AuthFailure {
+  ///
   const EmailLoginError(
       {String? message, dynamic stacktrace, Object? mainException})
       : super(
@@ -77,7 +97,8 @@ class EmailLoginError extends AuthFailure {
             mainException: mainException,
             stacktrace: stacktrace);
   @override
-  copyWith({String? message, stacktrace, Object? mainException}) =>
+  EmailLoginError copyWith(
+          {String? message, stacktrace, Object? mainException}) =>
       EmailLoginError(
         message: message ?? this.message,
         stacktrace: stacktrace ?? this.stacktrace,
@@ -85,7 +106,9 @@ class EmailLoginError extends AuthFailure {
       );
 }
 
+///
 class DuplicatedAccountProviderError extends AuthFailure {
+  ///
   const DuplicatedAccountProviderError(
       {String? message, dynamic stacktrace, Object? mainException})
       : super(
@@ -93,7 +116,8 @@ class DuplicatedAccountProviderError extends AuthFailure {
             mainException: mainException,
             stacktrace: stacktrace);
   @override
-  copyWith({String? message, stacktrace, Object? mainException}) =>
+  DuplicatedAccountProviderError copyWith(
+          {String? message, stacktrace, Object? mainException}) =>
       DuplicatedAccountProviderError(
         message: message ?? this.message,
         stacktrace: stacktrace ?? this.stacktrace,
@@ -101,7 +125,9 @@ class DuplicatedAccountProviderError extends AuthFailure {
       );
 }
 
+///
 class GoogleLoginError extends AuthFailure {
+  ///
   const GoogleLoginError(
       {String? message, dynamic stacktrace, Object? mainException})
       : super(
@@ -109,7 +135,8 @@ class GoogleLoginError extends AuthFailure {
             mainException: mainException,
             stacktrace: stacktrace);
   @override
-  copyWith({String? message, stacktrace, Object? mainException}) =>
+  GoogleLoginError copyWith(
+          {String? message, stacktrace, Object? mainException}) =>
       GoogleLoginError(
         message: message ?? this.message,
         stacktrace: stacktrace ?? this.stacktrace,
@@ -117,7 +144,9 @@ class GoogleLoginError extends AuthFailure {
       );
 }
 
+///
 class AppleIdLoginError extends AuthFailure {
+  ///
   const AppleIdLoginError(
       {String? message, dynamic stacktrace, Object? mainException})
       : super(
@@ -125,7 +154,8 @@ class AppleIdLoginError extends AuthFailure {
             mainException: mainException,
             stacktrace: stacktrace);
   @override
-  copyWith({String? message, stacktrace, Object? mainException}) =>
+  AppleIdLoginError copyWith(
+          {String? message, stacktrace, Object? mainException}) =>
       AppleIdLoginError(
         message: message ?? this.message,
         stacktrace: stacktrace ?? this.stacktrace,
@@ -133,7 +163,9 @@ class AppleIdLoginError extends AuthFailure {
       );
 }
 
+///
 class FacebookLoginError extends AuthFailure {
+  ///
   const FacebookLoginError(
       {String? message, dynamic stacktrace, Object? mainException})
       : super(
@@ -141,7 +173,8 @@ class FacebookLoginError extends AuthFailure {
             mainException: mainException,
             stacktrace: stacktrace);
   @override
-  copyWith({String? message, stacktrace, Object? mainException}) =>
+  FacebookLoginError copyWith(
+          {String? message, stacktrace, Object? mainException}) =>
       FacebookLoginError(
         message: message ?? this.message,
         stacktrace: stacktrace ?? this.stacktrace,
@@ -149,7 +182,9 @@ class FacebookLoginError extends AuthFailure {
       );
 }
 
+///
 class PhoneLoginError extends AuthFailure {
+  ///
   const PhoneLoginError(
       {String? message, dynamic stacktrace, Object? mainException})
       : super(
@@ -157,7 +192,8 @@ class PhoneLoginError extends AuthFailure {
             mainException: mainException,
             stacktrace: stacktrace);
   @override
-  copyWith({String? message, stacktrace, Object? mainException}) =>
+  FacebookLoginError copyWith(
+          {String? message, stacktrace, Object? mainException}) =>
       FacebookLoginError(
         message: message ?? this.message,
         stacktrace: stacktrace ?? this.stacktrace,
@@ -165,7 +201,9 @@ class PhoneLoginError extends AuthFailure {
       );
 }
 
+///
 class NotUserLogged extends AuthFailure {
+  ///
   const NotUserLogged(
       {String? message, dynamic stacktrace, Object? mainException})
       : super(
@@ -173,7 +211,8 @@ class NotUserLogged extends AuthFailure {
             mainException: mainException,
             stacktrace: stacktrace);
   @override
-  copyWith({String? message, stacktrace, Object? mainException}) =>
+  NotUserLogged copyWith(
+          {String? message, stacktrace, Object? mainException}) =>
       NotUserLogged(
         message: message ?? this.message,
         stacktrace: stacktrace ?? this.stacktrace,
@@ -181,7 +220,9 @@ class NotUserLogged extends AuthFailure {
       );
 }
 
+///
 class LinkAccountError extends AuthFailure {
+  ///
   const LinkAccountError(
       {String? message, dynamic stacktrace, Object? mainException})
       : super(
@@ -189,7 +230,8 @@ class LinkAccountError extends AuthFailure {
             mainException: mainException,
             stacktrace: stacktrace);
   @override
-  copyWith({String? message, stacktrace, Object? mainException}) =>
+  LinkAccountError copyWith(
+          {String? message, stacktrace, Object? mainException}) =>
       LinkAccountError(
         message: message ?? this.message,
         stacktrace: stacktrace ?? this.stacktrace,
@@ -197,7 +239,9 @@ class LinkAccountError extends AuthFailure {
       );
 }
 
+///
 class DeleteAccountError extends AuthFailure {
+  ///
   const DeleteAccountError(
       {String? message, dynamic stacktrace, Object? mainException})
       : super(
@@ -205,7 +249,8 @@ class DeleteAccountError extends AuthFailure {
             mainException: mainException,
             stacktrace: stacktrace);
   @override
-  copyWith({String? message, stacktrace, Object? mainException}) =>
+  DeleteAccountError copyWith(
+          {String? message, stacktrace, Object? mainException}) =>
       DeleteAccountError(
         message: message ?? this.message,
         stacktrace: stacktrace ?? this.stacktrace,

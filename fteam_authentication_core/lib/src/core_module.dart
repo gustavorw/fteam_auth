@@ -24,6 +24,7 @@ import 'infra/repositories/logout_repository.dart';
 import 'infra/repositories/signup_with_email_repository.dart';
 import 'infra/services/get_logged_user_service.dart';
 
+/// Dependency injection [FteamAuthetication]
 final authModule = KiwiContainer.scoped()
   //usecases
   ..registerFactory<DeleteAccount>((c) => DeleteAccountImpl(repository: c()))

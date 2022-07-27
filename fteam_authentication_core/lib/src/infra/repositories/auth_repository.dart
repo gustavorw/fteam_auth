@@ -1,16 +1,19 @@
 import 'package:dartz/dartz.dart';
 import 'package:flutter/services.dart';
-import 'package:fteam_authentication_core/src/domain/models/phone_auth_credentials.dart';
-import 'package:fteam_authentication_core/src/domain/models/phone_model.dart';
+import 'package:fteam_authentication_core/src/domain/entities/phone_auth_credentials.dart';
+import 'package:fteam_authentication_core/src/domain/entities/phone_credentials.dart';
 import '../../domain/entities/logged_user.dart';
 import '../../domain/errors/errors.dart';
-import '../../domain/models/email_credencials.dart';
+import '../../domain/entities/email_credencials.dart';
 import '../../domain/repositories/auth_repository.dart';
 import '../datasource/auth_datasource.dart';
 
+///
 class AuthRepositoryImpl implements AuthRepository {
+  ///
   final AuthDatasource datasource;
 
+  ///
   const AuthRepositoryImpl({required this.datasource});
 
   Future<Either<AuthFailure, LoggedUser?>> _execute<T extends AuthFailure>(
@@ -108,7 +111,7 @@ class AuthRepositoryImpl implements AuthRepository {
 
   @override
   Future<Either<AuthFailure, LoggedUser?>> verifySmsCode(
-      PhoneModel phone) async {
+      PhoneCredentials phone) async {
     try {
       final result = await datasource.verifySmsCode(phone);
       return Right(result);

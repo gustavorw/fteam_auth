@@ -3,9 +3,12 @@ import '../../domain/errors/errors.dart';
 import '../../domain/repositories/logout_repository.dart';
 import '../datasource/auth_datasource.dart';
 
+///
 class LogoutRepositoryImpl implements LogoutRepository {
+  ///
   final AuthDatasource datasource;
 
+  ///
   const LogoutRepositoryImpl({required this.datasource});
 
   @override

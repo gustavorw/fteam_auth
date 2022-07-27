@@ -63,7 +63,7 @@ void main() {
   test(
     'should return an SocialProviderDontExist',
     () async {
-      final response = await socialLogin(provider: ProviderLogin.phone);
+      final response = await socialLogin(provider: ProviderLogin.emailSignin);
       expect(response.fold(id, id), isA<SocialProviderDontExist>());
     },
   );

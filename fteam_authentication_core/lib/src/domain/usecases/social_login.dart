@@ -2,14 +2,19 @@ import 'package:dartz/dartz.dart';
 import '../../../fteam_authentication_core.dart';
 import '../repositories/auth_repository.dart';
 
+///
 abstract class SocialLogin {
+  ///
   Future<Either<AuthFailure, LoggedUser?>> call(
       {required ProviderLogin provider});
 }
 
+///
 class SocialLoginImpl implements SocialLogin {
+  ///
   final AuthRepository repository;
 
+  ///
   SocialLoginImpl({required this.repository});
   @override
   Future<Either<AuthFailure, LoggedUser?>> call(

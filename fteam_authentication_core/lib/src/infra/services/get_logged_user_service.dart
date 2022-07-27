@@ -4,9 +4,12 @@ import '../../domain/errors/errors.dart';
 import '../../domain/services/get_logged_user_service.dart';
 import '../datasource/auth_datasource.dart';
 
+///
 class GetLoggedUserServiceImpl implements GetLoggedUserService {
+  ///
   final AuthDatasource datasource;
 
+  ///
   const GetLoggedUserServiceImpl({required this.datasource});
   @override
   Future<Either<AuthFailure, LoggedUser?>> getUser() async {

@@ -5,6 +5,7 @@ import '../entities/logged_user.dart';
 import '../errors/errors.dart';
 import '../services/get_logged_user_service.dart';
 
+///
 abstract class GetLoggedUser {
   ///[checkToken] return true if token is valid
   ///when token is invalid, will try again.
@@ -14,9 +15,12 @@ abstract class GetLoggedUser {
       Duration tryAgainTime = const Duration(milliseconds: 800)});
 }
 
+///
 class GetLoggedUserImpl implements GetLoggedUser {
+  ///
   final GetLoggedUserService service;
 
+  ///
   const GetLoggedUserImpl({required this.service});
 
   @override
