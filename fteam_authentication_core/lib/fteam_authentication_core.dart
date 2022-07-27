@@ -2,14 +2,15 @@ library fteam_authentication_core;
 
 import 'package:dartz/dartz.dart';
 import 'package:flutter/material.dart';
-import 'package:fteam_authentication_core/src/domain/models/phone_auth_credentials.dart';
-import 'package:fteam_authentication_core/src/domain/models/phone_model.dart';
+import 'package:fteam_authentication_core/src/domain/entities/phone_auth_credentials.dart';
+import 'package:fteam_authentication_core/src/domain/entities/phone_credentials.dart';
 import 'package:fteam_authentication_core/src/domain/usecases/social_login.dart';
 import 'package:fteam_authentication_core/src/domain/usecases/verify_sms_code.dart';
 import 'src/core_module.dart';
 import 'src/domain/entities/logged_user.dart';
+import 'src/domain/enums/provider_login.dart';
 import 'src/domain/errors/errors.dart';
-import 'src/domain/models/email_credencials.dart';
+import 'src/domain/entities/email_credencials.dart';
 import 'src/domain/usecases/delete_account.dart';
 import 'src/domain/usecases/get_logged_user.dart';
 import 'src/domain/usecases/link_account.dart';
@@ -24,12 +25,13 @@ import 'src/infra/datasource/auth_datasource.dart';
 import 'src/interfaces/fteam_authetication.dart';
 export 'src/domain/entities/logged_user.dart';
 export 'src/domain/errors/errors.dart';
-export 'src/domain/models/email_credencials.dart';
+export 'src/domain/entities/email_credencials.dart';
 export 'src/infra/datasource/auth_datasource.dart';
-export 'src/domain/models/phone_model.dart';
-export 'src/domain/models/phone_auth_credentials.dart';
+export 'src/domain/entities/phone_credentials.dart';
+export 'src/domain/entities/phone_auth_credentials.dart';
+export 'src/domain/enums/provider_login.dart';
 
-// ignore: non_constant_identifier_names
+/// FteamAuth singleton of all methods
 final FTeamAuth = _FteamAutheticationImpl();
 
 class _FteamAutheticationImpl implements FteamAuthetication {
@@ -91,8 +93,8 @@ class _FteamAutheticationImpl implements FteamAuthetication {
 
   @override
   Future<Either<AuthFailure, LoggedUser?>> signupWithEmail(
-      {required EmailCredencials credencials}) {
-    return authModule.resolve<SignupWithEmail>()(credencials: credencials);
+      {required EmailCredencials emailCredencials}) {
+    return authModule.resolve<SignupWithEmail>()(credencials: emailCredencials);
   }
 
   @override
@@ -101,8 +103,9 @@ class _FteamAutheticationImpl implements FteamAuthetication {
   }
 
   @override
-  Future<Either<AuthFailure, LoggedUser?>> verifySmsCode(PhoneModel phone) {
-    return authModule.resolve<VerifySmsCode>().call(phone);
+  Future<Either<AuthFailure, LoggedUser?>> verifySmsCode(
+      PhoneCredentials phoneCredentials) {
+    return authModule.resolve<VerifySmsCode>().call(phoneCredentials);
   }
 
   @override

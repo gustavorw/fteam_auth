@@ -1,13 +1,32 @@
+import '../enums/provider_login.dart';
+
+/// Entity
 class LoggedUser {
+  ///
   final String name;
+
+  ///
   final String email;
+
+  ///
   final String uid;
+
+  ///
   final String urlPhoto;
+
+  ///
   final String token;
+
+  ///
   final bool emailVerified;
+
+  ///
   final String phone;
+
+  ///
   final List<ProviderLogin> providers;
 
+  ///
   const LoggedUser({
     required this.uid,
     required this.token,
@@ -19,6 +38,7 @@ class LoggedUser {
     this.phone = '',
   });
 
+  ///
   LoggedUser copyWith({
     required String uid,
     required String token,
@@ -40,17 +60,4 @@ class LoggedUser {
       phone: phone ?? this.phone,
     );
   }
-}
-
-enum ProviderLogin { google, facebook, appleId, emailSignin, phone }
-
-Map<ProviderLogin, String> _nameProviderLogin = {};
-Map<ProviderLogin, String> _emailProviderLogin = {};
-
-extension ProviderLoginExtension on ProviderLogin {
-  String get name => _nameProviderLogin[this] as String;
-  set name(String value) => _nameProviderLogin[this] = value;
-
-  String get email => _emailProviderLogin[this] as String;
-  set email(String value) => _emailProviderLogin[this] = value;
 }
