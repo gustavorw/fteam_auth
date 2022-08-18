@@ -27,29 +27,23 @@ class FirebaseDatasource implements AuthDatasource {
   }
 
   List<ProviderLogin> _getProviderLogin(List<UserInfo> userInfos) {
-    return userInfos.map((userInfo) {
-      if (userInfo.providerId == 'google.com') {
-        ProviderLogin.google.name = userInfo.displayName ?? '';
-        ProviderLogin.google.email = userInfo.email ?? '';
-        return ProviderLogin.google;
-      } else if (userInfo.providerId == 'facebook.com') {
-        ProviderLogin.facebook.name = userInfo.displayName ?? '';
-        ProviderLogin.facebook.email = userInfo.email ?? '';
-        return ProviderLogin.facebook;
-      } else if (userInfo.providerId == 'apple.com') {
-        ProviderLogin.appleId.name = userInfo.displayName ?? '';
-        ProviderLogin.appleId.email = userInfo.email ?? '';
-        return ProviderLogin.appleId;
-      } else if (userInfo.providerId == 'phone') {
-        ProviderLogin.phone.name = userInfo.displayName ?? '';
-        ProviderLogin.phone.email = userInfo.phoneNumber ?? '';
-        return ProviderLogin.phone;
-      } else {
-        ProviderLogin.emailSignin.name = userInfo.displayName ?? '';
-        ProviderLogin.emailSignin.email = userInfo.email ?? '';
-        return ProviderLogin.emailSignin;
-      }
-    }).toList();
+    final providers =
+        userInfos.map((provider) => _verifyProvider(provider.providerId));
+    return providers.toList();
+  }
+
+  ProviderLogin _verifyProvider(String provider) {
+    if (provider == ProviderLogin.google.provider) {
+      return ProviderLogin.google;
+    } else if (provider == ProviderLogin.facebook.provider) {
+      return ProviderLogin.facebook;
+    } else if (provider == ProviderLogin.appleId.provider) {
+      return ProviderLogin.appleId;
+    } else if (provider == ProviderLogin.phone.provider) {
+      return ProviderLogin.phone;
+    } else {
+      return ProviderLogin.emailSignin;
+    }
   }
 
   @override
@@ -336,11 +330,11 @@ class FirebaseDatasource implements AuthDatasource {
   }
 
   @override
-  Future<LoggedUser?> verifySmsCode(PhoneModel phone) async {
+  Future<LoggedUser?> verifySmsCode(PhoneCredentials phoneCredentials) async {
     try {
       final credential = PhoneAuthProvider.credential(
-        verificationId: phone.id,
-        smsCode: phone.smsCode,
+        verificationId: phoneCredentials.id,
+        smsCode: phoneCredentials.smsCode,
       );
 
       final userCredential =

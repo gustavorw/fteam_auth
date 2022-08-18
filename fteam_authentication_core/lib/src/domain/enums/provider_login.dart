@@ -2,20 +2,23 @@
 /// values (google, facebook, appleId).
 enum ProviderLogin {
   /// Google.
-  google(name: 'google.com'),
+  google(provider: 'google.com'),
 
   /// Facebook.
-  facebook(name: 'facebook.com'),
+  facebook(provider: 'facebook.com'),
 
   /// Apple
-  appleId(name: 'apple.com'),
+  appleId(provider: 'apple.com'),
+
+  /// Phone
+  phone(provider: 'phone'),
 
   /// Email
-  emailSignin(name: 'email');
+  emailSignin(provider: 'email');
 
-  /// Provider login name.
-  final String name;
+  /// Provider name
+  final String provider;
 
-  /// Provider
-  const ProviderLogin({this.name = ''});
+  /// Constructor for default is email
+  const ProviderLogin({this.provider = 'email'});
 }
